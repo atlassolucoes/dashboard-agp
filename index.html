@@ -151,7 +151,7 @@ function render(){
   const repasseVendas=ap.filter(r=>r.tipo==='REPASSE_VENDAS').reduce((s,r)=>s+r.valor,0);
   const ddDespPagas=desp.filter(r=>r.pago_por==='DD').reduce((s,r)=>s+r.valor,0);
   const ddDespCount=desp.filter(r=>r.pago_por==='DD').length;
-  const totalEntradas=totalRec+aporteDD+aporteMusic+patrocinios+ddDespPagas;
+  const totalEntradas=aporteDD+aporteMusic+patrocinios+ddDespPagas+repasseVendas;
   const despOp=desp.filter(r=>r.tag==='OPERAÇÃO').reduce((s,r)=>s+r.valor,0);
   const despAt=desp.filter(r=>r.tag==='ATIVAÇÃO').reduce((s,r)=>s+r.valor,0);
   const resultado=totalEntradas-totalDesp;
@@ -193,12 +193,12 @@ function render(){
   if(repasseVendas>0)aportesAgrupados['Receitas - Vendas de Produtos']={nome:'Receitas - Vendas de Produtos',tipo:'REPASSE',valor:repasseVendas};
   const apList=Object.values(aportesAgrupados).sort((a,b)=>b.valor-a.valor);
   let entHTML=`<div class="stitle"><div class="ic" style="background:var(--purple-lt);">🤝</div>ENTRADAS — Saques, Aportes e Patrocínios</div>`;
-  entHTML+=`<div class="dre-row"><span class="dre-label">Receita bruta — vendas site</span><span class="dre-val vg">${fmt(totalRec)}</span></div>`;
+
   apList.forEach(a=>{const isP=a.tipo==='PATROCINIO',isDD=a.tipo==='APORTE_DD'||a.tipo==='APORTE_DD_DESP',isR=a.tipo==='REPASSE';
     const tc=isP?'tag-purple':(isDD?'tag-dd':'tag-green'),tl=isP?'Patrocínio':(a.tipo==='APORTE_DD_DESP'?'Desp. diretas':(isR?'Repasse':'Sócio'));
     const vc=isP?'color:var(--purple)':'color:var(--agp-dk)';
     entHTML+=`<div class="dre-row"><span class="dre-label">${a.nome} <span class="tag ${tc}">${tl}</span></span><span class="dre-val" style="${vc}">${fmt(a.valor)}</span></div>`;});
-  entHTML+=`<div class="dre-total"><span>Total entradas</span><span class="vg">${fmt(totalRec+apList.reduce((s,a)=>s+a.valor,0))}</span></div>`;
+  entHTML+=`<div class="dre-total"><span>Total entradas</span><span class="vg">${fmt(apList.reduce((s,a)=>s+a.valor,0))}</span></div>`;
   document.getElementById('entradasSection').innerHTML=entHTML;
 
   // TAG
