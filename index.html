@@ -135,7 +135,7 @@ DATA.meses.forEach(m=>{const o1=document.createElement('option');o1.value=m;o1.t
 selInicio.value='2026-01';selFim.value='2026-03';
 let chartMensal=null,chartProd=null;
 let detailSort={col:'data',asc:true};
-let df={tag:'TODOS',cat:'TODOS',subcat:'TODOS',modelo:'TODOS',status:'TODOS',search:''};
+let df={tag:'TODOS',cat:'TODOS',subcat:'TODOS',modelo:'TODOS',status:'TODOS',pago_por:'TODOS',search:''};
 
 function render(){
   const mi=selInicio.value,mf=selFim.value,inRange=m=>m>=mi&&m<=mf;
@@ -257,6 +257,7 @@ function renderDetail(allDesp){
   const subcats=Array.from(new Set(allDesp.map(r=>r.subcategoria).filter(Boolean))).sort();
   const modelos=Array.from(new Set(allDesp.map(r=>r.modelo).filter(Boolean))).sort();
   const statuses=Array.from(new Set(allDesp.map(r=>r.status).filter(Boolean))).sort();
+  const pagoPors=Array.from(new Set(allDesp.map(r=>r.pago_por).filter(Boolean))).sort();
 
   let filtered=allDesp.slice();
   if(df.tag!=='TODOS')filtered=filtered.filter(r=>r.tag===df.tag);
@@ -264,6 +265,7 @@ function renderDetail(allDesp){
   if(df.subcat!=='TODOS')filtered=filtered.filter(r=>r.subcategoria===df.subcat);
   if(df.modelo!=='TODOS')filtered=filtered.filter(r=>r.modelo===df.modelo);
   if(df.status!=='TODOS')filtered=filtered.filter(r=>r.status===df.status);
+  if(df.pago_por!=='TODOS')filtered=filtered.filter(r=>r.pago_por===df.pago_por);
   if(df.search){const s=df.search.toLowerCase();filtered=filtered.filter(r=>(r.fornecedor||'').toLowerCase().includes(s)||(r.descricao||'').toLowerCase().includes(s));}
 
   filtered.sort((a,b)=>{let va,vb;
@@ -286,6 +288,7 @@ function renderDetail(allDesp){
       ${sel('subcat',subcats,df.subcat,'Todas sub-categorias')}
       ${sel('modelo',modelos,df.modelo,'Todos os modelos')}
       ${sel('status',statuses,df.status,'Todos os status')}
+      ${sel('pago_por',pagoPors,df.pago_por,'Todos — pago por')}
       <input type="text" id="dfSearchInput" placeholder="Buscar fornecedor ou descrição..." value="${df.search}" oninput="df.search=this.value;render()">
     </div>
     <div class="detail-scroll"><table class="detail-table"><thead><tr>
