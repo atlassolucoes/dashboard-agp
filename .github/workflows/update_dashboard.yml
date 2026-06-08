@@ -1,0 +1,38 @@
+name: Update AGP Dashboard
+
+on:
+  schedule:
+    # Roda todo dia às 8h (horário de Brasília = 11h UTC)
+    - cron: '0 11 * * *'
+  workflow_dispatch:
+    # Permite rodar manualmente pelo botão no GitHub
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependências
+        run: |
+          pip install google-auth google-auth-oauthlib google-api-python-client
+
+      - name: Atualizar dashboard
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: python update_dashboard.py
+
+      - name: Commitar e publicar
+        run: |
+          git config user.name "AGP Bot"
+          git config user.email "bot@agp-dashboard"
+          git add agp_dashboard.html
+          git diff --staged --quiet || git commit -m "📊 Dashboard atualizado automaticamente $(date +'%d/%m/%Y %H:%M')"
+          git push
