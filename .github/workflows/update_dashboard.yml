@@ -33,6 +33,6 @@ jobs:
         run: |
           git config user.name "AGP Bot"
           git config user.email "bot@agp-dashboard"
-          git add agp_dashboard.html
+          git add index.html
           git diff --staged --quiet || git commit -m "📊 Dashboard atualizado automaticamente $(date +'%d/%m/%Y %H:%M')"
           git push
