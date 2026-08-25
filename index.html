@@ -172,9 +172,12 @@ const PERIODS = [
   {label:'Abr/26', di:'2026-04-01', df:'2026-04-30'},
   {label:'Mai/26', di:'2026-05-01', df:'2026-05-31'},
   {label:'Jun/26', di:'2026-06-01', df:'2026-06-30'},
+  {label:'Jul/26', di:'2026-07-01', df:'2026-07-31'},
+  {label:'Ago/26', di:'2026-08-01', df:'2026-08-31'},
+  {label:'Set/26', di:'2026-09-01', df:'2026-09-30'},
 ];
-let finActivePill = 3; // Mar/26 default
-let recActivePill = 4; // Abr/26 default
+let finActivePill = 8; // Ago/26 default
+let recActivePill = 8; // Ago/26 default
 
 function buildPills(containerId, activePill, onClickFn) {
   const c = document.getElementById(containerId);

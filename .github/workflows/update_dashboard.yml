@@ -1,6 +1,12 @@
 name: Update AGP Dashboard
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - update_dashboard.py
+      - .github/workflows/update_dashboard.yml
   schedule:
     # Roda todo dia às 8h (horário de Brasília = 11h UTC)
     - cron: '0 11 * * *'

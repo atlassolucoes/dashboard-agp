@@ -3,7 +3,8 @@ import json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
-SPREADSHEET_ID = "1HMuQfuLAw_GrWmg-H-kQykXxHtV0U3BPDBCsEy96858"
+DRE_SPREADSHEET_ID = "1HMuQfuLAw_GrWmg-H-kQykXxHtV0U3BPDBCsEy96858"
+VENDAS_SPREADSHEET_ID = "18Qrdmyhc0RkipL628WVrpJ8S8bHXYVhI4-LLPIeuGLI"
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
 
 def get_service():
@@ -12,9 +13,9 @@ def get_service():
     creds = service_account.Credentials.from_service_account_info(creds_info, scopes=SCOPES)
     return build("sheets", "v4", credentials=creds)
 
-def read_sheet(service, range_name):
+def read_sheet(service, spreadsheet_id, range_name):
     result = service.spreadsheets().values().get(
-        spreadsheetId=SPREADSHEET_ID,
+        spreadsheetId=spreadsheet_id,
         range=range_name
     ).execute()
     return result.get("values", [])
@@ -157,15 +158,15 @@ def main():
     service = get_service()
 
     print("📋 Lendo DESPESAS...")
-    despesas = process_despesas(read_sheet(service, "DESPESAS!A:Z"))
+    despesas = process_despesas(read_sheet(service, DRE_SPREADSHEET_ID, "DESPESAS!A:Z"))
     print(f"   {len(despesas)} registros")
 
     print("🛒 Lendo RECEITAS (NuvemShop)...")
-    receitas = process_receitas(read_sheet(service, "RECEITAS!A:BH"))
+    receitas = process_receitas(read_sheet(service, VENDAS_SPREADSHEET_ID, "'[IMP] Receitas'!A:BH"))
     print(f"   {len(receitas)} registros")
 
     print("💰 Lendo APORTES...")
-    aportes = process_aportes(read_sheet(service, "APORTES!A:Z"))
+    aportes = process_aportes(read_sheet(service, DRE_SPREADSHEET_ID, "APORTES!A:Z"))
     print(f"   {len(aportes)} registros")
 
     all_months = sorted(set(
