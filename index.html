@@ -166,6 +166,7 @@ function switchTab(t){document.querySelectorAll('.tab-btn').forEach(b=>b.classLi
 // ===== PILL FILTERS =====
 const PERIODS = [
   {label:'2025', di:'2025-01-01', df:'2025-12-31', year:true},
+  {label:'2026', di:'2026-01-01', df:'2026-12-31', year:true},
   {label:'Jan/26', di:'2026-01-01', df:'2026-01-31'},
   {label:'Fev/26', di:'2026-02-01', df:'2026-02-28'},
   {label:'Mar/26', di:'2026-03-01', df:'2026-03-31'},
@@ -175,9 +176,12 @@ const PERIODS = [
   {label:'Jul/26', di:'2026-07-01', df:'2026-07-31'},
   {label:'Ago/26', di:'2026-08-01', df:'2026-08-31'},
   {label:'Set/26', di:'2026-09-01', df:'2026-09-30'},
+  {label:'Out/26', di:'2026-10-01', df:'2026-10-31'},
+  {label:'Nov/26', di:'2026-11-01', df:'2026-11-30'},
+  {label:'Dez/26', di:'2026-12-01', df:'2026-12-31'},
 ];
-let finActivePill = 8; // Ago/26 default
-let recActivePill = 8; // Ago/26 default
+let finActivePill = 11; // Out/26 default
+let recActivePill = 11; // Out/26 default
 
 function buildPills(containerId, activePill, onClickFn) {
   const c = document.getElementById(containerId);
